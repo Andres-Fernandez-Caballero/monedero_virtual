@@ -1,5 +1,6 @@
 from src.models.caja_moneda import CajaMoneda
 from src.models.moneda_digital import MonedaDigital
+from src.models.transaccion import Transaccion
 
 
 class Usuario(object):
@@ -7,11 +8,11 @@ class Usuario(object):
         self._nombre = nombre
         self._codigo = codigo
         self._caja_monedas = []
-        self._historial_transacciones = []
+        self._historial_transacciones = list[Transaccion]
 
-        caja_bit = CajaMoneda(MonedaDigital.BITCOIN)  #metodo de la clase CajaMoneda
-        caja_bit.agregar_monedas(10)  #metodo de la clase CajaMoneda
-        self._caja_monedas.append(caja_bit)  #agrega a la lista un objeto
+        caja_bit = CajaMoneda(MonedaDigital.BITCOIN)  # metodo de la clase CajaMoneda
+        caja_bit.agregar_monedas(10)  # metodo de la clase CajaMoneda
+        self._caja_monedas.append(caja_bit)  # agrega a la lista un objeto
 
     def recibir_dinero(self, usuario_remitente, moneda_digital, cantidad):
         pass
@@ -26,7 +27,8 @@ class Usuario(object):
             caja_moneda.agregar_monedas(cantidad)
             self._caja_monedas.append(caja_moneda)
         else:
-            self._caja_monedas[posicion].agregar_monedas(cantidad)  # agrega una moneda con el metodo Agregar moneda de la clase CajaMoneda
+            # a grega una moneda con el metodo Agregar moneda de la clase CajaMoneda
+            self._caja_monedas[posicion].agregar_monedas(cantidad)
 
     def buscar_caja_moneda(self, moneda_digital):
         posicion = None
@@ -47,7 +49,7 @@ class Usuario(object):
     def codigo(self):
         return self._codigo
 
-    def __str__(self) -> str:
+    def __str__(self):
         string = "Usuario \n nombre: " + self._nombre + "\n" + "Cajas:\n"
         for caja in self._caja_monedas:
             string += caja.__str__()

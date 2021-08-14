@@ -3,11 +3,12 @@ from src.models.Usuario import Usuario
 
 class MonederoDigital(object):
     def __init__(self):
-        self._usuarios = list[Usuario]
-
-    def iniciar(self):
+        self._usuarios = []
         user1 = Usuario("Martin", "A01")
         user2 = Usuario("Andres", "A02")
+        self._usuarios.extend([user1, user2])
+
+    def iniciar(self):
         finalized = False
         while finalized is not True:
             self._mostrar_opciones()
@@ -23,8 +24,8 @@ class MonederoDigital(object):
         string += "3_ MOSTRAR VALANCE GENERAL\n"
         string += "4_ MOSTRAR VALANCE MONEDA\n"
         string += "5_ MOSTRAR HISTORIAL DE TRANSACCIONES\n"
-        string += "6_ MOSTRAR VALANCE MONEDA\n"
-        string += "7_ SALIR\n"
+        string += "6_ SALIR\n"
+        string += "7_ MOSTRAR_USUARIOS(PROVISORIO)\n"
 
         print(string)
 
@@ -33,8 +34,7 @@ class MonederoDigital(object):
         opcion = int(input("Elija una opcion"))
         return opcion
 
-    @staticmethod
-    def _accion(opcion: int):
+    def _accion(self, opcion: int):
         finalized = False
         if opcion == 1:
             print("ingresaste 1")
@@ -46,6 +46,11 @@ class MonederoDigital(object):
             print("ingresaste 4")
         elif opcion == 5:
             print("ingresaste 5")
+        elif opcion == 7:
+            print("Usuarios\n")
+            for usuario in self._usuarios:
+                print(usuario.__str__())
+
         elif opcion == 6:
             print("Adios :)")
             finalized = True
