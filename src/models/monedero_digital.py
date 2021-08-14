@@ -1,4 +1,6 @@
 from src.models.Usuario import Usuario
+from src.models.opciones import Opcion
+import subprocess
 
 
 class MonederoDigital(object):
@@ -10,15 +12,16 @@ class MonederoDigital(object):
 
     def iniciar(self):
         finalized = False
+        self._limpiar_pantalla()
         while finalized is not True:
             self._mostrar_opciones()
             option = self._ingresar_opcion()
+            self._limpiar_pantalla()
             finalized = self._accion(option)
 
     @staticmethod
     def _mostrar_opciones():
-        string = ""
-        string += "********* Menu ************* \n"  # \n salta al renglon de abajo
+        string = "********* Menu ************* \n"  # \n salta al renglon de abajo
         string += "1_ RECIBIR DINERO\n"
         string += "2_ ENVIAR DINERO\n"
         string += "3_ MOSTRAR VALANCE GENERAL\n"
@@ -36,25 +39,42 @@ class MonederoDigital(object):
 
     def _accion(self, opcion: int):
         finalized = False
-        if opcion == 1:
+        if opcion == Opcion.RECIBIR_DINERO:
             print("ingresaste 1")
-        elif opcion == 2:
-            print("ingresaste 2")
-        elif opcion == 3:
+
+        elif opcion == Opcion.ENVIAR_DINERO:
+            print("ingresaste ")
+
+        elif opcion == Opcion.MOSTRAR_VALANCE_GENERAL:
             print("ingresaste 3")
-        elif opcion == 4:
+
+        elif opcion == Opcion.MOSTRAR_VALANCE_MONEDA:
             print("ingresaste 4")
-        elif opcion == 5:
+
+        elif opcion == Opcion.MOSTRAR_HISTORIAL_TRANSACCIONES:
             print("ingresaste 5")
-        elif opcion == 7:
-            print("Usuarios\n")
+
+        elif opcion == Opcion.MOSTRAR_USUARIOS:
+            print("****** Lista de Usuarios ******")
             for usuario in self._usuarios:
                 print(usuario.__str__())
 
-        elif opcion == 6:
+        elif opcion == Opcion.SALIR:
             print("Adios :)")
             finalized = True
+
         else:
             print("ingresaste una opcion no valida")
 
         return finalized
+
+    def _buscar_usuario(self, codigo):
+        usuario_encontrado = None
+        for usuario in self._usuarios:
+            if usuario.codigo is codigo:
+                usuario_encontrado = usuario
+        return usuario_encontrado
+    
+    @staticmethod
+    def _limpiar_pantalla():
+        subprocess.run("clear")

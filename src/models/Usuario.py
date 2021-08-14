@@ -52,7 +52,7 @@ class Usuario(object):
     def __str__(self):
         string = "Usuario \n nombre: " + self._nombre + "\n" + "Cajas:\n"
         for caja in self._caja_monedas:
-            string += caja.__str__()
+            string += "* " + caja.__str__()
         return string
 
 
