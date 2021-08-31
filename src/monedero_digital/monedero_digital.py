@@ -4,6 +4,7 @@ from src.models.api_criptomoneda import ApiBinance
 from src.models.moneda_digital import MonedaDigital
 from src.models.tipo_operacion import TipoOperacion
 from src.models.transaccion import Transaccion
+from src.monedero_digital.acciones.enviar_dinero import enviar_dinero
 from src.monedero_digital.acciones.mostrar_usuarios import mostrar_usuarios
 from src.monedero_digital.acciones.recibir_dinero import recibir_dinero
 from src.monedero_digital.opciones import Opcion
@@ -46,45 +47,9 @@ class MonederoDigital(object):
     def _accion(self, opcion: int):
         finalized = False
         if opcion == Opcion.RECIBIR_DINERO:
-            codigo_remitente = input("Ingrese el Codigo del Usuario Remitente")
-            usuario: Usuario
-            usuarioEncontrado = False
-            index = 0
-            while usuarioEncontrado is not True and index < len(self._usuarios):
-                if self._usuarios[index].codigo == codigo_remitente:
-                    usuarioEncontrado = True
-                    indexUsuario = index
-                index += 1
-            if usuarioEncontrado:
-                print(MonedaDigital.lista())
-                moneda_validada = False
-                moneda = input("Ingrese la moneda a recibir")
-                moneda_enum = MonedaDigital.get_enum_from_string(moneda)
-                monto_dolares = input("Ingrese el monto en dolares a recibir")
-
-                cantindad_monedas = float(monto_dolares) * ApiBinance.get_price(moneda)
-
-                if self._usuarios[indexUsuario].restar_monedas(moneda_enum, cantindad_monedas ):
-                    if self._usuario.sumar_monedas(moneda_enum, cantindad_monedas):
-                        transac1 = Transaccion(moneda_enum, TipoOperacion.RECIBIR_TRANSFERENCIA,
-                                               self._usuarios[indexUsuario],
-                                               self._usuario, monto_dolares, cantindad_monedas)
-                        transac2 = Transaccion(moneda_enum, TipoOperacion.ENVIARTRANSFERENCIA,
-                                               self._usuarios[indexUsuario],
-                                               self._usuario, monto_dolares, cantindad_monedas)
-
-                        self._usuario.agregar_transaccion(transac1)
-                        self._usuarios[indexUsuario].agregar_transaccion(transac2)
-
-                        print("Transaccion realizada")
-                else:
-                    print("error de transaccion")
-
-
-
-
+            recibir_dinero(self._usuario, self._usuarios)
         elif opcion == Opcion.ENVIAR_DINERO:
-            print("ingresaste ")
+            enviar_dinero(self._usuario, self._usuarios)
 
 
         elif opcion == Opcion.MOSTRAR_VALANCE_GENERAL:
