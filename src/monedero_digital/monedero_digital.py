@@ -16,13 +16,6 @@ class MonederoDigital(object):
         user2 = Usuario("Andres", "A02")
         self._usuarios.extend([user2])
 
-        transaccion = Transaccion(MonedaDigital.BITCONNECT,
-                                  TipoOperacion.RECIBIR_TRANSFERENCIA,
-                                  self._usuario, user2,
-                                  10,
-                                  10)
-        self._usuario.agregar_transaccion(transaccion)
-
     def iniciar(self):
         finalized = False
         self._limpiar_pantalla()
@@ -73,6 +66,16 @@ class MonederoDigital(object):
 
                 if self._usuarios[indexUsuario].restar_monedas(moneda_enum, cantindad_monedas ):
                     if self._usuario.sumar_monedas(moneda_enum, cantindad_monedas):
+                        transac1 = Transaccion(moneda_enum, TipoOperacion.RECIBIR_TRANSFERENCIA,
+                                               self._usuarios[indexUsuario],
+                                               self._usuario, monto_dolares, cantindad_monedas)
+                        transac2 = Transaccion(moneda_enum, TipoOperacion.ENVIARTRANSFERENCIA,
+                                               self._usuarios[indexUsuario],
+                                               self._usuario, monto_dolares, cantindad_monedas)
+
+                        self._usuario.agregar_transaccion(transac1)
+                        self._usuarios[indexUsuario].agregar_transaccion(transac2)
+
                         print("Transaccion realizada")
                 else:
                     print("error de transaccion")
