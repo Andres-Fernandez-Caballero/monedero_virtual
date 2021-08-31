@@ -1,5 +1,6 @@
 from src.models.caja_moneda import CajaMoneda
 from src.models.moneda_digital import MonedaDigital
+from src.models.tipo_operacion import TipoOperacion
 from src.models.transaccion import Transaccion
 
 
@@ -8,34 +9,60 @@ class Usuario(object):
         self._nombre = nombre
         self._codigo = codigo
         self._caja_monedas = []
-        self._historial_transacciones = list[Transaccion]
+        self._historial_transacciones = []
 
-        caja_bit = CajaMoneda(MonedaDigital.BITCOIN)  # metodo de la clase CajaMoneda
-        caja_bit.agregar_monedas(10)  # metodo de la clase CajaMoneda
-        self._caja_monedas.append(caja_bit)  # agrega a la lista un objeto
+        self._caja_monedas = self.iniciar_lista_monedas(100)
 
-    def recibir_dinero(self, usuario_remitente, moneda_digital, cantidad):
-        pass
+    def iniciar_lista_monedas(self, cantidad_monedas_inicial):
+        cajas = []
+        for moneda in MonedaDigital:
+            caja = CajaMoneda(moneda)
+            caja.sumar_cantidad_monedas(cantidad_monedas_inicial)
+            cajas.append(caja)
+        return cajas
 
-    def dar_dinero(self, usuario_destinatario, moneda_digital, cantidad):
-        pass
+    def agregar_transaccion(self, transaccion):
+        self._historial_transacciones.append(transaccion)
 
-    def _agregar_moneda(self, moneda_digital, cantidad):
-        posicion = self.buscar_caja_moneda(moneda_digital)
-        if posicion is None:
-            caja_moneda = CajaMoneda(moneda_digital)
-            caja_moneda.agregar_monedas(cantidad)
-            self._caja_monedas.append(caja_moneda)
-        else:
-            # a grega una moneda con el metodo Agregar moneda de la clase CajaMoneda
-            self._caja_monedas[posicion].agregar_monedas(cantidad)
+    def restar_monedas(self, moneda_digital, cantidad):
+        position = self.buscar_pocicion(moneda_digital)
+        accion_realizada = False
 
-    def buscar_caja_moneda(self, moneda_digital):
-        posicion = None
+        if position is not None:
+            if cantidad <= self._caja_monedas[position].cantidad:
+                self._caja_monedas[position].restar_cantidad_monedas(cantidad)
+                accion_realizada = True
+        return accion_realizada
+
+    def sumar_monedas(self, moneda_digital, cantidad):
+        posicion = self.buscar_pocicion(moneda_digital)
+        accion_realizada = False
+        if posicion is not None:
+            self._caja_monedas[posicion].sumar_cantidad_monedas(cantidad)
+            accion_realizada = True
+        return accion_realizada
+
+    # busca en la lista de caja_monedas y devuelve
+    # si encontro la monedaDigital devuelve su posicion
+    # si no encotro una monedaDIgital devuelve None
+    def buscar_pocicion(self, moneda_digital: MonedaDigital):
+        position = None
         for caja in self._caja_monedas:
-            if caja.moneda() is moneda_digital.value:
-                posicion = self._caja_monedas.index(caja)
-        return posicion
+            if caja.moneda is moneda_digital.value:
+                position = self._caja_monedas.index(caja)
+        return position
+
+    def __str__(self):
+        mensaje = "Usuario \n nombre: " + self._nombre + "\n" + "Cajas:\n"
+        for caja in self._caja_monedas:
+            mensaje += "* " + caja.__str__()
+        mensaje += "Transacciones\n"
+        if len(self._historial_transacciones) == 0:
+            mensaje += "No hay Transacciones monetarias"
+        else:
+            for transaccion in self._historial_transacciones:
+                mensaje += "* " + transaccion.__str__()
+        return mensaje
 
     @property
     def caja_monedas(self):
@@ -48,11 +75,3 @@ class Usuario(object):
     @property
     def codigo(self):
         return self._codigo
-
-    def __str__(self):
-        string = "Usuario \n nombre: " + self._nombre + "\n" + "Cajas:\n"
-        for caja in self._caja_monedas:
-            string += "* " + caja.__str__()
-        return string
-
-
