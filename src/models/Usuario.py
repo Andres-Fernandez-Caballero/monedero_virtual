@@ -76,7 +76,10 @@ class Usuario(object):
         if len(self._historial_transacciones) == 0:
             return "Sin transacciones"
         else:
-            return self._historial_transacciones.__str__()
+            transacciones = "Transacciones de " + self.nombre + "\n"
+            for transaccion in self._historial_transacciones:
+                transacciones += transaccion.__str__()
+            return transacciones
 
     @property
     def codigo(self):

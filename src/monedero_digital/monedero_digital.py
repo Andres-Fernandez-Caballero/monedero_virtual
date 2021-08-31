@@ -4,6 +4,7 @@ from src.models.api_criptomoneda import ApiBinance
 from src.models.moneda_digital import MonedaDigital
 from src.models.tipo_operacion import TipoOperacion
 from src.models.transaccion import Transaccion
+from src.monedero_digital.acciones.descargar_historial_transacciones import descargar_historial_transacciones
 from src.monedero_digital.acciones.enviar_dinero import enviar_dinero
 from src.monedero_digital.acciones.mostrar_historial_transacciones import mostrar_historial_transacciones
 from src.monedero_digital.acciones.mostrar_usuarios import mostrar_usuarios
@@ -64,7 +65,7 @@ class MonederoDigital(object):
             mostrar_historial_transacciones(self._usuario)
 
         elif opcion == Opcion.DESCARGAR_HISTORIAL_TRANSACCIONES:
-            pass
+            descargar_historial_transacciones(self._usuario)
 
         elif opcion == Opcion.MOSTRAR_USUARIOS:
             mostrar_usuarios(self._usuario, self._usuarios)
