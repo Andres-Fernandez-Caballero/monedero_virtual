@@ -5,6 +5,7 @@ from src.models.moneda_digital import MonedaDigital
 from src.models.tipo_operacion import TipoOperacion
 from src.models.transaccion import Transaccion
 from src.monedero_digital.acciones.enviar_dinero import enviar_dinero
+from src.monedero_digital.acciones.mostrar_historial_transacciones import mostrar_historial_transacciones
 from src.monedero_digital.acciones.mostrar_usuarios import mostrar_usuarios
 from src.monedero_digital.acciones.recibir_dinero import recibir_dinero
 from src.monedero_digital.opciones import Opcion
@@ -34,8 +35,9 @@ class MonederoDigital(object):
         string += "3_ MOSTRAR VALANCE GENERAL\n"
         string += "4_ MOSTRAR VALANCE MONEDA\n"
         string += "5_ MOSTRAR HISTORIAL DE TRANSACCIONES\n"
-        string += "6_ SALIR\n"
-        string += "7_ MOSTRAR_USUARIOS(PROVISORIO)\n"
+        string += "6_ DESCARGAR HISTORIAL DE TRANSACCIONES \n"
+        string += "7_ SALIR\n"
+        string += "8_ MOSTRAR_USUARIOS(PROVISORIO)\n"
 
         print(string)
 
@@ -59,7 +61,10 @@ class MonederoDigital(object):
             print("ingresaste 4")
 
         elif opcion == Opcion.MOSTRAR_HISTORIAL_TRANSACCIONES:
-            print("ingresaste 5")
+            mostrar_historial_transacciones(self._usuario)
+
+        elif opcion == Opcion.DESCARGAR_HISTORIAL_TRANSACCIONES:
+            pass
 
         elif opcion == Opcion.MOSTRAR_USUARIOS:
             mostrar_usuarios(self._usuario, self._usuarios)

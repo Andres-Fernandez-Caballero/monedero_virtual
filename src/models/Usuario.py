@@ -71,6 +71,12 @@ class Usuario(object):
     @property
     def nombre(self):
         return self._nombre
+    @property
+    def historial_transacciones(self):
+        if len(self._historial_transacciones) == 0:
+            return "Sin transacciones"
+        else:
+            return self._historial_transacciones.__str__()
 
     @property
     def codigo(self):
