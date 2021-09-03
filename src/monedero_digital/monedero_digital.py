@@ -9,7 +9,6 @@ from src.monedero_digital.acciones.balance_moneda import balance_moneda
 from src.monedero_digital.acciones.descargar_historial_transacciones import descargar_historial_transacciones
 from src.monedero_digital.acciones.enviar_dinero import enviar_dinero
 from src.monedero_digital.acciones.mostrar_historial_transacciones import mostrar_historial_transacciones
-from src.monedero_digital.acciones.mostrar_usuarios import mostrar_usuarios
 from src.monedero_digital.acciones.recibir_dinero import recibir_dinero
 from src.monedero_digital.opciones import Opcion
 
