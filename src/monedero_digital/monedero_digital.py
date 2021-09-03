@@ -1,9 +1,4 @@
 from src.models.Usuario import Usuario
-import src.monedero_digital.acciones
-from src.models.api_criptomoneda import ApiBinance
-from src.models.moneda_digital import MonedaDigital
-from src.models.tipo_operacion import TipoOperacion
-from src.models.transaccion import Transaccion
 from src.monedero_digital.acciones.balance_general import balance_general
 from src.monedero_digital.acciones.balance_moneda import balance_moneda
 from src.monedero_digital.acciones.descargar_historial_transacciones import descargar_historial_transacciones
@@ -45,8 +40,15 @@ class MonederoDigital(object):
 
     @staticmethod
     def _ingresar_opcion():
-        opcion = int(input("Elija una opcion"))
-        return opcion
+        opcion_validada = False
+
+        while opcion_validada is not True:
+            opcion = input("Elija una opcion")
+            if opcion.isnumeric():
+                opcion_validada = True
+            else:
+                print("debe ingresar una opcion numerica")
+        return int(opcion)
 
     def _accion(self, opcion: int):
         finalized = False
