@@ -20,18 +20,18 @@ def recibir_dinero(usuario, usuarios):
         moneda_validada = False
         moneda = input("Ingrese la moneda a recibir")
         moneda_enum = MonedaDigital.get_enum_from_string(moneda)
-        monto_dolares = input("Ingrese el monto en dolares a recibir")
+        cantidad_monedas = float(input("Ingrese la cantidad a recibir de monedas digitales"))
 
-        cantindad_monedas = float(monto_dolares) * ApiBinance.get_price(moneda)
+        monto_dolares = float(cantidad_monedas) * ApiBinance.get_price(moneda)
 
-        if usuarios[indexUsuario].restar_monedas(moneda_enum, cantindad_monedas):
-            if usuario.sumar_monedas(moneda_enum, cantindad_monedas):
+        if usuarios[indexUsuario].restar_monedas(moneda_enum, cantidad_monedas):
+            if usuario.sumar_monedas(moneda_enum, cantidad_monedas):
                 transac1 = Transaccion(moneda_enum, TipoOperacion.RECIBIR_TRANSFERENCIA,
                                        usuarios[indexUsuario],
-                                       usuario, monto_dolares, cantindad_monedas)
+                                       usuario, monto_dolares, cantidad_monedas)
                 transac2 = Transaccion(moneda_enum, TipoOperacion.ENVIARTRANSFERENCIA,
                                        usuarios[indexUsuario],
-                                       usuario, monto_dolares, cantindad_monedas)
+                                       usuario, monto_dolares, cantidad_monedas)
 
                 usuario.agregar_transaccion(transac1)
                 usuarios[indexUsuario].agregar_transaccion(transac2)

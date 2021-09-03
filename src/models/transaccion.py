@@ -12,8 +12,8 @@ class Transaccion(object):
     def __init__(self,
                  moneda: MonedaDigital,
                  operacion: TipoOperacion,
-                 remitente,
-                 destinatario,
+                 remitente, #Usuario
+                 destinatario, #Usuario
                  monto: float,  # en dolares
                  cantidad_monedas
                  ):

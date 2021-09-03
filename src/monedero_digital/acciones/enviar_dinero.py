@@ -20,9 +20,9 @@ def enviar_dinero(usuario, usuarios):
         moneda_validada = False
         moneda = input("Ingrese la moneda a enviar")
         moneda_enum = MonedaDigital.get_enum_from_string(moneda)
-        monto_dolares = input("Ingrese el monto en dolares a enviar")
+        cantindad_monedas = float(input("Ingrese la cantidad de monedas digitales"))
 
-        cantindad_monedas = float(monto_dolares) * ApiBinance.get_price(moneda)
+        monto_dolares = float(cantindad_monedas) * ApiBinance.get_price(moneda)
 
         if usuario.restar_monedas(moneda_enum, cantindad_monedas):
             if usuarios[indexUsuario].sumar_monedas(moneda_enum, cantindad_monedas):
